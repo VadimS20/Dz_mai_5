@@ -1,4 +1,3 @@
-﻿
 #pragma once
 
 #include <iostream>
@@ -12,8 +11,8 @@ public:
 	object(const object& temp) {
 		data = temp.data;
 	}
-	~object(){
-		std::cout << "object has deleted"<<"\n";
+	~object() {
+		std::cout << "object has deleted" << "\n";
 	}
 	object() {
 		data = 0;
@@ -22,34 +21,38 @@ public:
 		return data;
 	}
 	void display() {
-		std::cout << data<<"\n";
+		std::cout << data << "\n";
 	}
 };
 
 template<typename T>
 class SP {
 	T* p;
-	int count;
+	int* count;
 public:
 	SP(T* temp) {
-		count = 0;
+		count = new int;
+		*count = 0;
 		p = temp;
 	}
-	SP(const SP& temp) {
-		p = temp.p;
-		count++;
+	SP(const SP& temp1) {
+		count = temp1.count;
+		p = temp1.p;
+		*count++;
 	}
 	~SP() {
-		if (count == 0) {
+		if (*count == 0) {
+			
+			delete count;
 			delete p;
+			std::cout << "counter has deleted\n";
 		}
 		else {
-			count--;
+			*count--;
 		}
 	}
 	SP operator =(const SP& temp) {
-		p = temp.p;
-		count++;
+		//this->p = temp.p;
 		return *this;
 	}
 	T* operator->() {
